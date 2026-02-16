@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/hooks/useAuth";
 import type { Metadata } from "next";
 import { Syne, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
@@ -105,7 +106,10 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${jakarta.variable} font-body bg-hfc-black text-hfc-light antialiased`}
       >
-        {children}
+        <AuthProvider>
+          {children}          
+        </AuthProvider>
+        
       </body>
     </html>
   );

@@ -51,7 +51,7 @@ export default function LoginPage() {
           <div className="w-9 h-9 relative flex-shrink-0">
             <Image
               src="/img/logo.png"
-              alt="Howfar Transport Company Logo"
+              alt="Howfar Transport Company Logo."
               fill
               className="object-contain group-hover:scale-105 transition-transform"
               priority
