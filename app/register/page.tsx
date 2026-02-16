@@ -8,6 +8,7 @@ import { User, Mail, Phone, ArrowRight } from "lucide-react";
 import { authApi, getApiError } from "@/lib/api";
 import { Input } from "@/components/ui/index";
 import Button from "@/components/ui/Button";
+import Image from "next/image";
 
 type FormValues = {
   full_name:    string;
@@ -41,8 +42,16 @@ export default function RegisterPage() {
 
       {/* Header */}
       <div className="pt-8 space-y-2">
-        <div className="w-10 h-10 bg-hfc-lime rounded-xl flex items-center justify-center mb-6">
-          <span className="font-display font-black text-hfc-black text-sm">HFC</span>
+        <div className="w-10 h-10 bg-hfc-black rounded-xl flex items-center justify-center mb-6">
+          <div className="w-9 h-9 relative flex-shrink-0">
+            <Image
+            src="/img/logo.png"
+            alt="Howfar Transport Company Logo"
+            fill
+            className="object-contain group-hover:scale-105 transition-transform"
+            priority
+              />
+            </div>
         </div>
         <h1 className="font-display font-black text-3xl text-white">Create account</h1>
         <p className="font-body text-hfc-muted text-sm">
