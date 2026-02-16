@@ -10,7 +10,7 @@ import type {
 
 // ── Axios instance ────────────────────────────────────────────────────────
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "https://api-howfartransports.onrender.com/";
 
 export const api: AxiosInstance = axios.create({
   baseURL: `${BASE_URL}/api`,
