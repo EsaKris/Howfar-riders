@@ -10,12 +10,13 @@ import type {
 
 // ── Axios instance ────────────────────────────────────────────────────────
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "https://api-howfartransports.onrender.com/";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_PREFIX = "/api";
 
-export const api: AxiosInstance = axios.create({
-  baseURL: `${BASE_URL}/api`,
+export const api = axios.create({
+  baseURL: `${BASE_URL}${API_PREFIX}`,
   headers: { "Content-Type": "application/json" },
-  timeout: 15_000,
+  timeout: 15000,
 });
 
 // ── Request interceptor — attach JWT ─────────────────────────────────────

@@ -2,6 +2,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import type { Metadata } from "next";
 import { Syne, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import 'leaflet/dist/leaflet.css';
 
 const syne = Syne({
   subsets: ["latin"],

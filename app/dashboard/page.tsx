@@ -2,32 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { MapPin, Navigation, StickyNote, ChevronRight, Bike } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { rideApi, getApiError } from "@/lib/api";
+import { Bike, ChevronRight } from "lucide-react";
+import { rideApi } from "@/lib/api";
 import { useAuth } from "@/hooks/useAuth";
 import AppShell from "@/components/layout/AppShell";
-import { Input, StatusBadge } from "@/components/ui/index";
+import { StatusBadge } from "@/components/ui/index";
 import Button from "@/components/ui/Button";
-import type { Ride, RideRequestPayload } from "@/types";
-import { formatDistanceToNow } from "date-fns";
-
-type FormValues = {
-  pickup_address:  string;
-  dropoff_address: string;
-  rider_notes:     string;
-};
+import type { Ride } from "@/types";
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const router   = useRouter();
+  const router = useRouter();
 
-  const [loading,    setLoading]    = useState(false);
-  const [apiError,   setApiError]   = useState("");
   const [activeRide, setActiveRide] = useState<Ride | null>(null);
-  const [checking,   setChecking]   = useState(true);
-
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
+  const [checking, setChecking] = useState(true);
 
   // Check if rider has an active ride on mount
   useEffect(() => {
@@ -45,25 +33,6 @@ export default function DashboardPage() {
       }
     })();
   }, []);
-
-  const onSubmit = async (data: FormValues) => {
-    setLoading(true);
-    setApiError("");
-    try {
-      const payload: RideRequestPayload = {
-        pickup_address:  data.pickup_address.trim(),
-        dropoff_address: data.dropoff_address.trim(),
-        rider_notes:     data.rider_notes.trim(),
-      };
-      const { data: res } = await rideApi.request(payload);
-      reset();
-      router.push(`/ride?id=${res.ride.id}`);
-    } catch (err) {
-      setApiError(getApiError(err));
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const firstName = user?.full_name?.split(" ")[0] ?? "Rider";
   const hour = new Date().getHours();
@@ -99,7 +68,7 @@ export default function DashboardPage() {
         {/* Active ride banner */}
         {!checking && activeRide && (
           <button
-            onClick={() => router.push(`/ride?id=${activeRide.id}`)}
+            onClick={() => router.push(`/rides/${activeRide.id}`)}
             className="w-full bg-hfc-lime/5 border border-hfc-lime/30 rounded-3xl p-5 text-left space-y-3 hover:border-hfc-lime/60 transition-all active:scale-[0.98]"
           >
             <div className="flex items-center justify-between">
@@ -115,62 +84,26 @@ export default function DashboardPage() {
           </button>
         )}
 
-        {/* Request form */}
+        {/* Request ride CTA */}
         {!activeRide && (
           <div className="space-y-4">
-            <h3 className="font-display font-bold text-white text-lg">Where are you going?</h3>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <Input
-                label="Pickup Location"
-                placeholder="e.g. Wurukum Market, Makurdi"
-                leftIcon={<Navigation size={15} className="text-hfc-lime" />}
-                error={errors.pickup_address?.message}
-                {...register("pickup_address", {
-                  required: "Enter your pickup location",
-                  minLength: { value: 5, message: "Please be more specific" },
-                })}
-              />
-
-              <Input
-                label="Dropoff Location"
-                placeholder="e.g. North Bank Bridge, Makurdi"
-                leftIcon={<MapPin size={15} className="text-hfc-orange" />}
-                error={errors.dropoff_address?.message}
-                {...register("dropoff_address", {
-                  required: "Enter your destination",
-                  minLength: { value: 5, message: "Please be more specific" },
-                  validate: (val, { pickup_address }) =>
-                    val.trim().toLowerCase() !== pickup_address.trim().toLowerCase() ||
-                    "Pickup and dropoff cannot be the same",
-                })}
-              />
-
-              <Input
-                label="Notes for driver (optional)"
-                placeholder="e.g. I'm wearing a red shirt, gate 2..."
-                leftIcon={<StickyNote size={15} />}
-                {...register("rider_notes")}
-              />
-
-              {apiError && (
-                <div className="bg-hfc-red/10 border border-hfc-red/30 text-hfc-red rounded-2xl px-4 py-3 text-sm font-body">
-                  {apiError}
-                </div>
-              )}
-
-              <Button type="submit" loading={loading} fullWidth size="lg" className="mt-2">
-                Request Ride · ₦500
-              </Button>
-            </form>
+            <h3 className="font-display font-bold text-white text-lg">Ready to ride?</h3>
+            <Button
+              onClick={() => router.push("/request")}
+              fullWidth
+              size="lg"
+              className="mt-2"
+            >
+              Request a ride · ₦500
+            </Button>
           </div>
         )}
 
         {/* Quick links */}
         <div className="grid grid-cols-2 gap-3">
           {[
-            { label: "Ride History",  sub: "View past rides",    href: "/history",  color: "border-hfc-border hover:border-hfc-lime/30" },
-            { label: "Your Profile",  sub: "Edit your details",  href: "/profile",  color: "border-hfc-border hover:border-hfc-orange/30" },
+            { label: "Ride History", sub: "View past rides", href: "/history", color: "border-hfc-border hover:border-hfc-lime/30" },
+            { label: "Your Profile", sub: "Edit your details", href: "/profile", color: "border-hfc-border hover:border-hfc-orange/30" },
           ].map((item) => (
             <button
               key={item.href}
