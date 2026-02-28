@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Clock, User, ArrowLeft } from "lucide-react";
+import { Home, Clock, User, ArrowLeft, Bike } from "lucide-react";
 import clsx from "clsx";
 import { useAuth } from "@/hooks/useAuth";
 
 const navItems = [
   { href: "/dashboard", icon: Home,  label: "Home"    },
+  { href: "/request",   icon: Bike,  label: "Rides"   },
   { href: "/history",   icon: Clock, label: "History" },
   { href: "/profile",   icon: User,  label: "Profile" },
 ];

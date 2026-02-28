@@ -68,7 +68,7 @@ export default function DashboardPage() {
         {/* Active ride banner */}
         {!checking && activeRide && (
           <button
-            onClick={() => router.push(`/rides/${activeRide.id}`)}
+            onClick={() => router.push(`/ride?id=${activeRide.id}`)}
             className="w-full bg-hfc-lime/5 border border-hfc-lime/30 rounded-3xl p-5 text-left space-y-3 hover:border-hfc-lime/60 transition-all active:scale-[0.98]"
           >
             <div className="flex items-center justify-between">

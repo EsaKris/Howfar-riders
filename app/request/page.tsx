@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
-import { MapPin, ArrowRight, ArrowLeft, Clock, Navigation, Search, Navigation2, X } from "lucide-react";
+import { MapPin, ArrowRight, ArrowLeft, Clock, Navigation, Search, Navigation2, X, Home, User, Bike } from "lucide-react";
 import L from "leaflet";
 import { api } from "@/lib/api";
 import Button from "@/components/ui/Button";
@@ -27,6 +27,42 @@ const customIcon = new L.Icon({
   iconAnchor: [16, 40],
   popupAnchor: [0, -40],
 });
+
+// Bottom navigation component
+function BottomNav() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "Home", icon: Home, href: "/dashboard" },
+    { name: "Rides", icon: Bike, href: "/request" },
+    { name: "History", icon: Clock, href: "/history" },
+    { name: "Profile", icon: User, href: "/profile" },
+  ];
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 bg-hfc-card border-t border-hfc-border py-2 px-4 flex justify-around items-center max-w-md mx-auto">
+      {navItems.map((item) => {
+        const isActive = pathname === item.href;
+        const Icon = item.icon;
+        return (
+          <button
+            key={item.name}
+            onClick={() => router.push(item.href)}
+            className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-colors ${
+              isActive
+                ? "text-hfc-lime"
+                : "text-hfc-muted hover:text-white"
+            }`}
+          >
+            <Icon size={20} />
+            <span className="text-xs font-body">{item.name}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function RequestRidePage() {
   const router = useRouter();
@@ -157,7 +193,7 @@ export default function RequestRidePage() {
     if (!pickup || !dropoff || !route) return;
     setLoading(true);
     try {
-      const { data } = await api.post("/rides/", {
+      const { data } = await api.post("/rides/request/", {
         pickup_latitude: pickup.lat,
         pickup_longitude: pickup.lng,
         pickup_address: pickup.address,
@@ -339,7 +375,7 @@ export default function RequestRidePage() {
 
         {/* Bottom panel – only for confirm step */}
         {step === "confirm" && route && pickup && dropoff && (
-          <div className="bg-hfc-card border-t border-hfc-border p-5 space-y-4">
+          <div className="bg-hfc-card border-t border-hfc-border p-5 space-y-4 pb-20">
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="text-hfc-lime mt-1 flex-shrink-0" />
@@ -400,6 +436,9 @@ export default function RequestRidePage() {
           </div>
         )}
       </div>
+
+      {/* Bottom Navigation */}
+      <BottomNav />
     </div>
   );
 }
