@@ -5,10 +5,12 @@ import L from "leaflet";
 import { Search, Navigation2, X } from "lucide-react";
 import { api } from "@/lib/api";
 import "leaflet/dist/leaflet.css";
+import { Icon } from "leaflet";
 
 // Custom marker icon
-const customIcon = new L.Icon({
-  iconUrl: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='40' viewBox='0 0 32 40'%3E%3Cpath d='M16,0 C7.2,0 0,7.2 0,16 C0,24.8 16,40 16,40 S32,24.8 32,16 C32,7.2 24.8,0 16,0 Z' fill='%23C8F53F' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23000'/%3E%3C/svg%3E",
+const customIcon = new Icon({
+  iconUrl:
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='40' viewBox='0 0 32 40'%3E%3Cpath d='M16,0 C7.2,0 0,7.2 0,16 C0,24.8 16,40 16,40 S32,24.8 32,24.8 24.8,0 16,0 Z' fill='%23C8F53F' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23000'/%3E%3C/svg%3E",
   iconSize: [32, 40],
   iconAnchor: [16, 40],
   popupAnchor: [0, -40],
