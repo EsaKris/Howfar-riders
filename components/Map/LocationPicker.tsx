@@ -1,11 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-let L: typeof import("leaflet");
-
-if (typeof window !== "undefined") {
-  L = require("leaflet");
-}
+import L from "leaflet";
 import { Search, Navigation2, X } from "lucide-react";
 import { api } from "@/lib/api";
 import "leaflet/dist/leaflet.css";

@@ -207,7 +207,7 @@ export default function RequestRidePage() {
         fare: FIXED_FARE,
       });
       if (data.success) {
-        router.push(`/rides/${data.ride.id}`);
+        router.push(`/ride?id=${data.ride.id}`);
       }
     } catch (error) {
       console.error("Ride creation error:", error);
