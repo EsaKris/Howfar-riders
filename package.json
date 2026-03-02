@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.7.2",
+    "bufferutil": "^4.1.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "js-cookie": "^3.0.5",
@@ -20,7 +21,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.52.0",
     "react-leaflet": "^4.2.1",
-    "socket.io-client": "^4.8.3"
+    "socket.io-client": "^4.8.3",
+    "utf-8-validate": "^6.0.6"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

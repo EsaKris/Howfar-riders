@@ -2,7 +2,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MapPin, ArrowRight, Clock, Navigation } from "lucide-react";
-import LocationPicker from "@/components/Map/LocationPicker";
+import dynamic from "next/dynamic";
+
+const LocationPicker = dynamic(
+  () => import("@/components/Map/LocationPicker"),
+  { ssr: false }
+);
 import RideMap from "@/components/Map/RideMap";
 import { api } from "@/lib/api";
 
